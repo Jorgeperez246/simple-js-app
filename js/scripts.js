@@ -14,3 +14,4 @@ for(let x = 0;x<pokemonList.length;x++){
   document.write(`${pokemonList[x].name} (height: ${pokemonList[x].height}) <br>`);
  }
 }
+// testing git authorship with this comment
