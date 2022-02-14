@@ -12,7 +12,7 @@ pokemonList.forEach(item => {
     document.write(`${item.name} (height: ${item.height}) - Wow, that's big! <br>`);
   }
   else{
-    document.write(`${item.name} (height: ${item.height})`);
+    document.write(`${item.name} (height: ${item.height}) <br>`);
   }
 })
  
