@@ -6,12 +6,15 @@ let pokemonList = [
   { name: "Weedle", height: 0.3, types: ["bug", "poison"] },
 ];
 //loop to iterate over the objects
-for(let x = 0;x<pokemonList.length;x++){
-  if(pokemonList[x].height>1.0){
-  document.write(`${pokemonList[x].name} (height: ${pokemonList[x].height}) - Wow, that's big! <br>`);
-}
- else {
-  document.write(`${pokemonList[x].name} (height: ${pokemonList[x].height}) <br>`);
- }
-}
+
+pokemonList.forEach(item => {
+  if(item.height > 1.0){
+    document.write(`${item.name} (height: ${item.height}) - Wow, that's big! <br>`);
+  }
+  else{
+    document.write(`${item.name} (height: ${item.height})`);
+  }
+})
+ 
+
 // testing git authorship with this comment
