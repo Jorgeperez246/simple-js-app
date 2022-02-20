@@ -3,6 +3,7 @@
 let pokemonRepository = (function () {
   let pokemonList = [];
   let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=150";
+  let modalContainer = document.querySelector("#modal-container");
   function getAll() {
     return pokemonList;
   }
@@ -29,6 +30,7 @@ let pokemonRepository = (function () {
   function showDetails(pokemon) {
     loadDetails(pokemon).then(function () {
       console.log(pokemon);
+      showModal(pokemon.name, `Height: ${pokemon.height}`, pokemon.imageUrl);
     });
   }
   function loadList() {
@@ -64,6 +66,44 @@ let pokemonRepository = (function () {
         console.error(e);
       });
   }
+  function showModal(title, text, img) {
+    modalContainer.innerHTML = "";
+    let modal = document.createElement("div");
+    modal.classList.add("modal");
+
+    let closeButtonElement = document.createElement("button");
+    closeButtonElement.classList.add("modal-close");
+    closeButtonElement.innerText = "Close";
+    closeButtonElement.addEventListener("click", hideModal);
+
+    titleElement = document.createElement("h1");
+    titleElement.innerText = title;
+
+    let contentElement = document.createElement("p");
+    contentElement.innerText = text;
+
+    let imgElement = document.createElement("img");
+    imgElement.src = img;
+
+    modal.appendChild(closeButtonElement);
+    modal.appendChild(titleElement);
+    modal.appendChild(contentElement);
+    modal.appendChild(imgElement);
+    modalContainer.appendChild(modal);
+
+    modalContainer.classList.add("is-visible");
+  }
+  function hideModal() {
+    modalContainer.classList.remove("is-visible");
+  }
+  document.querySelector("#show-modal").addEventListener("click", () => {
+    showModal();
+  });
+  window.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && modalContainer.classList.contains("is-visible")) {
+      hideModal();
+    }
+  });
   return {
     add: add,
     getAll: getAll,
@@ -71,6 +111,8 @@ let pokemonRepository = (function () {
     showDetails: showDetails,
     loadList: loadList,
     loadDetails: loadDetails,
+    showModal: showModal,
+    hideModal: hideModal,
   };
 })();
 //loop to iterate over the objects
