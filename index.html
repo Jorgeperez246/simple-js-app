@@ -9,14 +9,29 @@
   </head>
   <body>
     <h1>PokeDex</h1>
-    <button id='show-modal'>Show modal</button>
+    <form id='register-form'>
+  
+      <div class='input-wrapper'>
+        <label for='email'>E-mail</label>
+        <input id='email'>
+      </div>
+      
+      <div class='input-wrapper'>
+        <label for='password'>Password</label>
+        <input id='password' type='password'>
+      </div>
+    
+      <button>Register</button>
+     
+    </form>
+    <button id='show-modal' >Show modal</button>
+   
     <ul class="pokemon-list"></ul>
-    <div id='modal-container'>
+    <div id='modal-container'></div>
       <!-- <div class='modal'>
         <button class='modal-close'>Close</button>
         <h1>Modal title</h1>
         <p>Modal text</p> -->
-    
     <script src="js/promise-polyfill.js"></script>
     <script src="js/fetch.umd-1.js"></script>
     <script src="js/scripts.js"></script>

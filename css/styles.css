@@ -1,10 +1,21 @@
+* {
+  box-sizing: border-box;
+}
 .button-class {
-  background-color: black;
-  border: none;
-  color: white;
-  padding: 15px;
-  margin-bottom: 10px;
+  display: block;
+  width: 100%;
+  max-width: 400px;
+  padding: 16px;
+  margin: 0 auto 16px auto;
+  box-sizing: border-box;
+  border-style: none;
+  border-radius: 6px;
+  color: inherit;
+  font-family: inherit;
+  font-size: inherit;
   text-align: center;
+  background-color: rgb(0, 60, 255);
+  color: white;
 }
 html,
 body {
@@ -64,4 +75,9 @@ body {
 }
 #modal-container.is-visible {
   display: block;
+}
+
+.pokemon-list {
+  list-style: none;
+  padding: 20px;
 }

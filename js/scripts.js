@@ -104,6 +104,64 @@ let pokemonRepository = (function () {
       hideModal();
     }
   });
+
+  function validateEmail() {
+    let value = email.value;
+
+    if (!value) {
+      showErrorMessage(email, "Email is a required field.");
+      return false;
+    }
+
+    if (value.indexOf("@") === -1) {
+      showErrorMessage(email, "You must enter a valid email address.");
+      return false;
+    }
+
+    showErrorMessage(email, null);
+    return true;
+  }
+  function validatePassword() {
+    let value = password.value;
+
+    if (!value) {
+      showErrorMessage(password, "Password is a required field.");
+      return false;
+    }
+
+    if (value.length < 8) {
+      showErrorMessage(
+        password,
+        "The password needs to be at least 8 characters long."
+      );
+      return false;
+    }
+
+    showErrorMessage(password, null);
+    return true;
+  }
+  function showErrorMessage(input, message) {
+    let container = input.parentElement;
+
+    let error = container.querySelector(".error-message");
+    if (error) {
+      container.removeChild(error);
+    }
+
+    if (message) {
+      let error = document.createElement("div");
+      error.classList.add("error-message");
+      error.innerText = message;
+      container.appendChild(error);
+    }
+  }
+  function validateForm() {
+    let isValidEmail = validateEmail();
+    let isValidPassword = validatePassword();
+    return isValidEmail && isValidPassword;
+  }
+  email.addEventListener("input", validateEmail);
+  password.addEventListener("input", validatePassword);
   return {
     add: add,
     getAll: getAll,
@@ -113,6 +171,10 @@ let pokemonRepository = (function () {
     loadDetails: loadDetails,
     showModal: showModal,
     hideModal: hideModal,
+    showErrorMessage: showErrorMessage,
+    validateEmail: validateEmail,
+    validatePassword: validatePassword,
+    validateForm: validateForm,
   };
 })();
 //loop to iterate over the objects
