@@ -16,16 +16,20 @@ let pokemonRepository = (function () {
   }
   function addListItem(pokemon) {
     let pokeList = document.querySelector(".pokemon-list");
-    let listItem = document.createElement("li");
-    let button = document.createElement("button");
-    button.innerText = pokemon.name;
-    pokeList.appendChild(listItem);
-    listItem.appendChild(button);
-    listItem.classList.add("list-group-item");
-    button.classList.add("btn");
-    button.classList.add("btn-primary");
+    let listItem = document.createElement("button");
 
-    button.addEventListener("click", (event) => {
+    listItem.innerText = pokemon.name;
+    pokeList.appendChild(listItem);
+
+    listItem.classList.add(
+      "list-group-item",
+      "list-group-item-action",
+      "text-center"
+    );
+    listItem.setAttribute("data-toggle", "modal");
+    listItem.setAttribute("data-target", "#exampleModal");
+
+    listItem.addEventListener("click", (event) => {
       showDetails(pokemon);
     });
   }
@@ -63,7 +67,10 @@ let pokemonRepository = (function () {
       .then((details) => {
         item.imageUrl = details.sprites.front_default;
         item.height = details.height;
-        item.types = details.types;
+        item.types = [];
+        details.types.forEach(function (element) {
+          item.types.push(element.type.name);
+        });
       })
       .catch((e) => {
         console.error(e);
@@ -78,8 +85,9 @@ let pokemonRepository = (function () {
     modalBody.empty();
 
     let nameElement = $("<h1>" + item.name + "</h1>");
-    let imageElement = $('<img class ="modal-img"style="width:50%">');
-    imageElement.attr("src", item.imageUrlFront);
+    let imageElement = document.createElement("img");
+    imageElement.classList.add("modal-img");
+    imageElement.src = item.imageUrl;
     let heightElement = $("<p>" + "height: " + item.height + "</p>");
     let typesElement = $("<p>" + "types: " + item.types + "</p>");
 
