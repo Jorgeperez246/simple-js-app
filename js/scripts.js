@@ -3,7 +3,7 @@
 let pokemonRepository = (function () {
   let pokemonList = [];
   let apiUrl = "https://pokeapi.co/api/v2/pokemon/?limit=150";
-  let modalContainer = document.querySelector("#modal-container");
+
   function getAll() {
     return pokemonList;
   }
@@ -21,7 +21,10 @@ let pokemonRepository = (function () {
     button.innerText = pokemon.name;
     pokeList.appendChild(listItem);
     listItem.appendChild(button);
-    button.classList.add("button-class");
+    listItem.classList.add("list-group-item");
+    button.classList.add("btn");
+    button.classList.add("btn-primary");
+
     button.addEventListener("click", (event) => {
       showDetails(pokemon);
     });
@@ -30,7 +33,7 @@ let pokemonRepository = (function () {
   function showDetails(pokemon) {
     loadDetails(pokemon).then(function () {
       console.log(pokemon);
-      showModal(pokemon.name, `Height: ${pokemon.height}`, pokemon.imageUrl);
+      showModal(pokemon);
     });
   }
   function loadList() {
@@ -66,102 +69,26 @@ let pokemonRepository = (function () {
         console.error(e);
       });
   }
-  function showModal(title, text, img) {
-    modalContainer.innerHTML = "";
-    let modal = document.createElement("div");
-    modal.classList.add("modal");
+  function showModal(item) {
+    let modalBody = $(".modal-body");
+    let modalTitle = $(".modal-title");
+    let modalHeader = $(".modal-header");
 
-    let closeButtonElement = document.createElement("button");
-    closeButtonElement.classList.add("modal-close");
-    closeButtonElement.innerText = "Close";
-    closeButtonElement.addEventListener("click", hideModal);
+    modalTitle.empty();
+    modalBody.empty();
 
-    titleElement = document.createElement("h1");
-    titleElement.innerText = title;
+    let nameElement = $("<h1>" + item.name + "</h1>");
+    let imageElement = $('<img class ="modal-img"style="width:50%">');
+    imageElement.attr("src", item.imageUrlFront);
+    let heightElement = $("<p>" + "height: " + item.height + "</p>");
+    let typesElement = $("<p>" + "types: " + item.types + "</p>");
 
-    let contentElement = document.createElement("p");
-    contentElement.innerText = text;
-
-    let imgElement = document.createElement("img");
-    imgElement.src = img;
-
-    modal.appendChild(closeButtonElement);
-    modal.appendChild(titleElement);
-    modal.appendChild(contentElement);
-    modal.appendChild(imgElement);
-    modalContainer.appendChild(modal);
-
-    modalContainer.classList.add("is-visible");
+    modalTitle.append(nameElement);
+    modalBody.append(imageElement);
+    modalBody.append(heightElement);
+    modalBody.append(typesElement);
   }
-  function hideModal() {
-    modalContainer.classList.remove("is-visible");
-  }
-  document.querySelector("#show-modal").addEventListener("click", () => {
-    showModal();
-  });
-  window.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && modalContainer.classList.contains("is-visible")) {
-      hideModal();
-    }
-  });
 
-  function validateEmail() {
-    let value = email.value;
-
-    if (!value) {
-      showErrorMessage(email, "Email is a required field.");
-      return false;
-    }
-
-    if (value.indexOf("@") === -1) {
-      showErrorMessage(email, "You must enter a valid email address.");
-      return false;
-    }
-
-    showErrorMessage(email, null);
-    return true;
-  }
-  function validatePassword() {
-    let value = password.value;
-
-    if (!value) {
-      showErrorMessage(password, "Password is a required field.");
-      return false;
-    }
-
-    if (value.length < 8) {
-      showErrorMessage(
-        password,
-        "The password needs to be at least 8 characters long."
-      );
-      return false;
-    }
-
-    showErrorMessage(password, null);
-    return true;
-  }
-  function showErrorMessage(input, message) {
-    let container = input.parentElement;
-
-    let error = container.querySelector(".error-message");
-    if (error) {
-      container.removeChild(error);
-    }
-
-    if (message) {
-      let error = document.createElement("div");
-      error.classList.add("error-message");
-      error.innerText = message;
-      container.appendChild(error);
-    }
-  }
-  function validateForm() {
-    let isValidEmail = validateEmail();
-    let isValidPassword = validatePassword();
-    return isValidEmail && isValidPassword;
-  }
-  email.addEventListener("input", validateEmail);
-  password.addEventListener("input", validatePassword);
   return {
     add: add,
     getAll: getAll,
@@ -170,11 +97,6 @@ let pokemonRepository = (function () {
     loadList: loadList,
     loadDetails: loadDetails,
     showModal: showModal,
-    hideModal: hideModal,
-    showErrorMessage: showErrorMessage,
-    validateEmail: validateEmail,
-    validatePassword: validatePassword,
-    validateForm: validateForm,
   };
 })();
 //loop to iterate over the objects
