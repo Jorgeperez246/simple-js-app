@@ -40,6 +40,15 @@ let pokemonRepository = (function () {
       showModal(pokemon);
     });
   }
+  function findPokemon(searchName) {
+    $(".pokemon-list").empty();
+
+    pokemonList.forEach((pokemon) => {
+      if (pokemon.name.toLowerCase().includes(searchName.toLowerCase())) {
+        addListItem(pokemon);
+      }
+    });
+  }
   function loadList() {
     return fetch(apiUrl)
       .then((response) => {
@@ -105,6 +114,7 @@ let pokemonRepository = (function () {
     loadList: loadList,
     loadDetails: loadDetails,
     showModal: showModal,
+    findPokemon: findPokemon,
   };
 })();
 //loop to iterate over the objects
